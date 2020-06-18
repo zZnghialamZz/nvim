@@ -96,8 +96,13 @@ nnoremap <Leader>+ :vertical resize +5<CR>
 nnoremap <Leader>- :vertical resize -5<CR>
 nnoremap <C-p> :GFiles<CR>
 nnoremap <Leader>pf :Files<CR>
+
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
+
+" Quick command for vim config
+command! Config execute ":e $MYVIMRC"
+command! Reload execute "source ~/.config/nvim/init.vim"
 
 " GoTo code navigation.
 nmap <leader>gd <Plug>(coc-definition)
