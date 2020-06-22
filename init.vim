@@ -83,6 +83,7 @@ let g:netrw_winsize = 25
 
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
+let NERDTreeShowHidden = 1
 
 "Key Map"
 nnoremap <leader>h :wincmd h<CR>
