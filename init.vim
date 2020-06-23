@@ -28,7 +28,7 @@ set cmdheight=2
 
 " delays and poor user experience.
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
-set updatetime=100
+set updatetime=50
 
 set colorcolumn=80
 highlight ColorColumn ctermbg=0 guibg=lightgrey
@@ -65,6 +65,10 @@ call plug#end()
 
 " theme
 let g:gruvbox_contrast_dark = 'hard'
+if exists('+termguicolors')
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif
 
 colorscheme gruvbox
 set background=dark
@@ -93,6 +97,7 @@ nnoremap <leader>l :wincmd l<CR>
 nnoremap <leader>u :UndotreeShow<CR>
 nnoremap <leader>f :NERDTreeToggle<CR>
 nnoremap <Leader>ps :Rg<SPACE>
+nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
 nnoremap <Leader>+ :vertical resize +5<CR>
 nnoremap <Leader>- :vertical resize -5<CR>
 nnoremap <C-p> :GFiles<CR>
@@ -100,6 +105,9 @@ nnoremap <Leader>pf :Files<CR>
 
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
+
+inoremap <C-c> <esc>
+
 
 " Quick command for vim config
 command! Config execute ":e $MYVIMRC"
