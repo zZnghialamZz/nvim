@@ -34,17 +34,15 @@ set colorcolumn=80
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 highlight Pmenu ctermbg=111217 guibg=#11121
 
-" auto-install vim-plug                                                                                                                
-if empty(glob('~/.config/nvim/autoload/plug.vim'))                                                                                    
-  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim                                                             
-  autocmd VimEnter * PlugInstall                                                                                                      
-endif 
+" auto-install vim-plug
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall
+endif
 
 call plug#begin('~/.config/nvim/plugged')
 
 Plug 'terryma/vim-multiple-cursors'
-" Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-" Plug 'tweekmonster/gofmt.vim'
 Plug 'jremmen/vim-ripgrep'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-utils/vim-man'
@@ -54,6 +52,10 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'vuciv/vim-bujo'
 Plug 'godlygeek/tabular'
+Plug 'derekwyatt/vim-fswitch'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'preservim/nerdcommenter'
+Plug 'voldikss/vim-floaterm'
 
 "------------------------------------------"
 "LANGUAGE"
@@ -81,11 +83,16 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'flazz/vim-colorschemes'
 Plug 'preservim/nerdtree'
+Plug 'dracula/vim', { 'name': 'dracula' }
+Plug 'altercation/vim-colors-solarized'
 
 call plug#end()
 
 " theme
 let g:gruvbox_contrast_dark = 'hard'
+let g:gruvbox_termcolors=16
+let g:solarized_termcolors=256
+
 if exists('+termguicolors')
     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
@@ -131,24 +138,50 @@ let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeShowHidden = 1
 
-"Key Map"
+" -----------------------------------------------------------------------------
+" Key Map
+" -----------------------------------------------------------------------------
 inoremap jk <ESC>
+nmap <C-g> <ESC>
 
 nnoremap <Leader>bs :w<CR>
+
+" Window
 nnoremap <leader>h :wincmd h<CR>
 nnoremap <leader>j :wincmd j<CR>
 nnoremap <leader>k :wincmd k<CR>
-nnoremap <Leader>ps :Rg<SPACE>
 nnoremap <leader>l :wincmd l<CR>
+nnoremap <leader>wv <C-w>v
+nnoremap <leader>ws <C-w>s
+nnoremap <leader>wh 8<C-w><
+nnoremap <leader>wl 8<C-w>>
+nnoremap <leader>wk 8<C-w>-
+nnoremap <leader>wj 8<C-w>+
+
+nnoremap <leader>bb :Buffers<CR>
+
+nnoremap <leader>gg :Lines<CR>
+nnoremap <leader>gG :BLines<CR>
+
+" move to beginning/end of line
+nmap <S-h> ^
+nmap <S-l> $
+
+nnoremap <Leader>ps :Rg<SPACE>
 nnoremap <leader>u :UndotreeShow<CR>
 nnoremap <leader>f :NERDTreeToggle<CR>
-nnoremap <Leader>pf :Files<CR>
+
+nnoremap <Leader>pF :Files<CR>
+nnoremap <Leader>pf :GFiles<CR>
 nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
+
 nnoremap <Leader>+ :vertical resize +5<CR>
 nnoremap <Leader>- :vertical resize -5<CR>
-nnoremap <C-p> :GFiles<CR>
+
 
 " open header fswitch
+au! BufEnter *.cpp let b:fswitchdst = 'h' | let b:fswitchlocs = 'reg:/include/ethan'
+
 nmap <silent> <F4> :FSHere<cr>
 nmap <silent> <Leader>of :FSHere<cr>
 nmap <silent> <Leader>ol :FSRight<cr>
@@ -175,8 +208,12 @@ command! Stripwhitespace :%s/\s\+$//
 command! Whitespacestrip :%s/\s\+$//
 
 " Git Config
+nnoremap <silent><Leader>G :FloatermNew --width=0.9 --height=0.9 lazygit<CR>
 nnoremap <leader>gc :GBranches<CR>
 nnoremap <leader>ga :Git fetch --all<CR>
+
+" Terminal
+let g:floaterm_keymap_toggle = '<Leader>T'
 
 " vim TODO
 nmap <Leader>tu <Plug>BujoChecknormal
@@ -192,6 +229,7 @@ imap <c-space> <Plug>(asyncomplete_force_refresh)
 " let g:lsp_diagnostics_enabled = 0
 let g:lsp_signs_error = {'text': '✗'}
 let g:lsp_signs_warning = {'text': '%'}
+
 " Disable highligh errors
 let g:lsp_highlights_enabled = 0
 let g:lsp_textprop_enabled = 0
@@ -203,7 +241,6 @@ function! s:on_lsp_buffer_enabled() abort
     " refer to doc to add more commands
 endfunction
 
-nmap <F12> <plug>(lsp-declaration)
 nmap gd <plug>(lsp-declaration)
 nmap gD <plug>(lsp-definition)
 nmap gp <plug>(lsp-peek-declaration)
@@ -232,3 +269,18 @@ au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#source
     \ 'priority': 10,
     \ 'completor': function('asyncomplete#sources#file#completor')
     \ }))
+
+" multicursor
+let g:multi_cursor_next_key='<C-n>'
+let g:multi_cursor_prev_key='<C-p>'
+let g:multi_cursor_skip_key='<C-x>'
+let g:multi_cursor_quit_key='<Esc>'
+let g:multi_cursor_exit_from_insert_mode=0
+
+" Build Setup for Ethan
+nmap <F1> <Nop>
+nmap <F2> <Nop>
+nmap <F3> <Nop>
+nmap <F1> :!sh build_files/scripts/clean_mac.sh<CR>
+nmap <F2> :!sh build_files/scripts/build_mac.sh<CR>
+nmap <F3> :!bin/ETHAN<CR>
