@@ -1,30 +1,43 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Maintainer:
+"       Nghia Lam <nghialam12795@gmail.com>
+"
+" Sections:
+"
+" => General {{{
 syntax on
 
+set exrc
 set guicursor=
-set relativenumber
-set nohlsearch
+set noerrorbells visualbell t_vb=  "remove annoying sound in vim
+set relativenumber                 "relative number for line numbers
+set lazyredraw                     "no redraw when executing macros
+set cursorline                     "highlight current line
 set hidden
-set noerrorbells
+set foldenable                     "enable folding
+set foldnestmax=10                 "10 nested fold max
+set foldmethod=marker
+set foldlevel=0
+set showmatch                      "show matching bracket when cursor is over
+set nohlsearch                     "not highlight stuff when jump searchs
+set incsearch                      "increamental search
 set tabstop=2 softtabstop=2
 set shiftwidth=2
 set splitright
+set splitbelow
 set termguicolors
 set shortmess+=c
-set t_Co=256
 set expandtab
 set smartindent
 set nu
 set nowrap
-set noswapfile
-set nobackup
 set undodir=~/.vim/undodir
 set undofile
-set incsearch
 set scrolloff=8
-set encoding=utf-8
+set encoding=UTF-8
 
-" Give more space for displaying messages.
-set cmdheight=2
+" Display in one line is more than enough.
+set cmdheight=1
 
 " delays and poor user experience.
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
@@ -32,64 +45,71 @@ set updatetime=50
 
 set colorcolumn=80
 highlight ColorColumn ctermbg=0 guibg=lightgrey
-highlight Pmenu ctermbg=111217 guibg=#11121
 
-" auto-install vim-plug
-if empty(glob('~/.config/nvim/autoload/plug.vim'))
-  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall
+" }}} end General
+" => VIM User Interface {{{
+
+" Set extra options when running in GUI mode
+if has("gui_running")
+    set t_Co=256
+    set guioptions-=m                  "remove menu bar
+    set guioptions-=e
+    set guioptions-=T                  "remove toolbar
+    set guioptions-=r                  "remove right-hand scroll bar
+    set guioptions-=L                  "remove left-hand scroll bar
+    set guitablabel=%M\ %t
 endif
 
-call plug#begin('~/.config/nvim/plugged')
+" }}} end VIM User Interface
+" => Plugins install {{{
 
+" auto-install vim-plug
+call plug#begin('~/.vim/plugged')
+
+"------------------------------------------"
+"GENERAL"
 Plug 'terryma/vim-multiple-cursors'
-Plug 'jremmen/vim-ripgrep'
-Plug 'tpope/vim-fugitive'
-Plug 'vim-utils/vim-man'
 Plug 'mbbill/undotree'
-Plug 'sheerun/vim-polyglot'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'vuciv/vim-bujo'
-Plug 'godlygeek/tabular'
-Plug 'derekwyatt/vim-fswitch'
-Plug 'editorconfig/editorconfig-vim'
 Plug 'preservim/nerdcommenter'
-Plug 'voldikss/vim-floaterm'
+Plug 'preservim/nerdtree'
 
 "------------------------------------------"
 "LANGUAGE"
-Plug 'plasticboy/vim-markdown' "better markdown support
+Plug 'plasticboy/vim-markdown'               "better markdown support
 Plug 'rhysd/vim-clang-format'
-" New autocomplete
-" Async support
-Plug 'prabirshrestha/async.vim'
-" Async autocompletion for Vim 8 and Neovim with |timers|.
+Plug 'kana/vim-operator-user'
+Plug 'Shougo/vimproc.vim'
+Plug 'prabirshrestha/async.vim'              "async autocompletion for Vim 8 and Neovim with |timers|.
 Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-file.vim'
-" Provide Language Server Protocol autocompletion source for asyncomplete.vim and vim-lsp.
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-" Async Language Server Protocol plugin for vim8 and neovim.
+Plug 'prabirshrestha/asyncomplete-file.vim'  "provide Language Server Protocol autocompletion source for asyncomplete.vim and vim-lsp.
+Plug 'prabirshrestha/asyncomplete-lsp.vim'   "async Language Server Protocol plugin for vim8 and neovim.
 Plug 'prabirshrestha/vim-lsp'
-" Add suport for languages
-Plug 'mattn/vim-lsp-settings'
+Plug 'mattn/vim-lsp-settings'                "add suport for languages
 
 "------------------------------------------"
 "THEME"
 Plug 'gruvbox-community/gruvbox'
 Plug 'sainnhe/gruvbox-material'
-Plug 'phanviet/vim-monokai-pro'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'flazz/vim-colorschemes'
-Plug 'preservim/nerdtree'
 Plug 'dracula/vim', { 'name': 'dracula' }
 Plug 'altercation/vim-colors-solarized'
 
 call plug#end()
 
-" theme
-let g:gruvbox_contrast_dark = 'hard'
+" }}} end Plugins Install
+" => Colors {{{
+
+" Enable 256 colors palette in Gnome Terminal
+if $COLORTERM == 'gnome-terminal'
+    set t_Co=256
+endif
+
+" Theme
+let g:gruvbox_contrast_dark='hard'
 let g:gruvbox_termcolors=16
 let g:solarized_termcolors=256
 
@@ -99,12 +119,182 @@ if exists('+termguicolors')
 endif
 
 colorscheme gruvbox
-set background=dark
 
-if executable('rg')
-    let g:rg_derive_root='true'
+set background=dark
+set encoding=utf-8                          "set utf8 as standard encoding
+
+" }}} end Color
+" => Neovide Specific {{{
+if exists('g:neovide')
+  set guifont=Fixedsys\ Excelsior\ 3.01:h16   "set to use my favorite font
+  let g:neovide_fullscreen=v:true
+  let g:neovide_cursor_vfx_mode = "wireframe"
+  let g:neovide_cursor_animation_length=0.09
+endif
+" }}} end Neovide Specific
+" => Files, backups and undo {{{
+
+" Turn backup off, since most stuff is in SVN, git etc. anyway...
+set nobackup
+set nowb
+set noswapfile
+
+" }}} end Files, backup and undo
+" => Editing mapping {{{
+
+let g:mapleader=" "
+
+inoremap jk <ESC>
+nmap <C-g> <ESC>
+
+nnoremap <Leader>bs :w<CR>
+
+" window commands
+nmap <Leader>wv :vsp<cr>
+nmap <Leader>ws :split<cr>
+nmap <Leader>wl <c-w><c-l>
+nmap <Leader>wh <c-w><c-h>
+nmap <Leader>wj <c-w><c-j>
+nmap <Leader>wk <c-w><c-k>
+
+if has("gui_running")
+  au GUIEnter * simalt ~x "toggle maximized when using gvim
 endif
 
+" Quick command for vim config
+command! Config execute ":e $MYVIMRC"
+command! Reload execute "source $MYVIMRC"
+
+" Custom Commands
+nmap <S-h> ^
+nmap <S-l> $
+vnoremap <S-h> ^
+vnoremap <S-l> $
+
+nnoremap j gj
+nnoremap k gk
+
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
+nnoremap <Leader>bb :Buffers<CR>
+
+nnoremap <Leader>+ :vertical resize +5<CR>
+nnoremap <Leader>- :vertical resize -5<CR>
+
+nnoremap <Leader>gg :Lines<CR>
+nnoremap <Leader>gG :BLines<CR>
+
+nnoremap <Leader>sw :%s/\s\+$//<cr>:let @/=''<CR>
+command! Stripwhitespace :%s/\s\+$//
+command! Whitespacestrip :%s/\s\+$//
+
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr>    pumvisible() ? "\<C-y>" : "\<cr>"
+imap <c-space> <Plug>(asyncomplete_force_refresh)
+
+" Plugin Commands
+nnoremap <Leader>u :UndotreeShow<CR>
+nnoremap <Leader>f :NERDTreeToggle<CR>
+
+nnoremap <Leader>pF :Files<CR>
+nnoremap <Leader>pf :GFiles<CR>
+nnoremap <Leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
+
+" LSP
+" Disable diagnostics
+let g:lsp_diagnostics_enabled = 0
+
+" Disable highligh errors
+let g:lsp_highlights_enabled = 0
+let g:lsp_textprop_enabled = 0
+let g:lsp_signs_priority = 1
+
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    " refer to doc to add more commands
+endfunction
+
+nmap <Leader>gd <plug>(lsp-declaration)
+nmap <Leader>gD <plug>(lsp-definition)
+nmap <Leader>gp <plug>(lsp-peek-declaration)
+nmap <Leader>gP <plug>(lsp-peek-definition)
+nmap <Leader>ge <plug>(lsp-next-diagnostic)
+nmap <Leader>gh <plug>(lsp-hover)
+nmap <Leader>gr <plug>(lsp-references)
+nmap <Leader>gu <plug>(lsp-references)
+nmap <Leader>gE <plug>(lsp-document-diagnostics)
+nmap <Leader>ga <plug>(lsp-code-action)
+nmap <Leader>ya <plug>(lsp-code-action)
+nmap <Leader>yj <plug>(lsp-declaration)
+nmap <Leader>yg <plug>(lsp-declaration)
+nmap <Leader>yd <plug>(lsp-peek-declaration)
+nmap <Leader>ys <plug>(lsp-status)
+
+augroup lsp_install
+    au!
+    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+
+" Terminal Function
+let g:term_buf = 0
+let g:term_win = 0
+function! TermToggle(height)
+  if win_gotoid(g:term_win)
+    hide
+  else
+    botright new
+    exec "resize " . a:height
+    try
+      exec "buffer " . g:term_buf
+    catch
+      "call termopen($SHELL, {"detach": 0})
+      terminal
+      let g:term_buf = bufnr("")
+      set nonumber
+      set norelativenumber
+      set signcolumn=no
+    endtry
+    startinsert!
+    let g:term_win = win_getid()
+  endif
+endfunction
+
+" Toggle terminal on/off (neovim)
+nnoremap <A-t> :call TermToggle(14)<CR>
+inoremap <A-t> <Esc>:call TermToggle(14)<CR>
+tnoremap <A-t> <C-\><C-n>:call TermToggle(14)<CR>
+
+" Terminal go back to normal mode
+tnoremap <Esc> <C-\><C-n>
+tnoremap :q! <C-\><C-n>:q!<CR>
+
+" }}} end Editor mapping
+" => Misc {{{
+
+" Multiple Cursor settings
+let g:multi_cursor_use_default_mapping=0
+
+let g:multi_cursor_select_all_word_key = '<A-n>'
+let g:multi_cursor_start_key           = 'g<C-n>'
+let g:multi_cursor_select_all_key      = 'g<A-n>'
+let g:multi_cursor_next_key            = '<C-n>'
+let g:multi_cursor_prev_key            = '<C-p>'
+let g:multi_cursor_skip_key            = '<C-x>'
+let g:multi_cursor_quit_key            = '<Esc>'
+
+" Nerdtree settings
+let NERDTreeMinimalUI = 1
+let NERDTreeShowHidden = 1
+let g:NERDTreeIgnore = []
+let g:NERDTreeStatusline = ''
+" Automaticaly close nvim if NERDTree is only thing left open
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" FZF settings
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
 let $FZF_DEFAULT_OPTS='--reverse'
 let g:fzf_branch_actions = {
@@ -126,161 +316,29 @@ let g:fzf_branch_actions = {
       \ },
       \}
 
-let loaded_matchparen = 1
-let mapleader = " "
+let loaded_matchparen=1
+let g:netrw_browse_split=2
+let g:vrfr_rg='true'
+let g:netrw_banner=0
+let g:netrw_winsize=25
+"let g:clang_format#auto_format=1
+"let g:clang_format#auto_format_on_insert_leave=1      "Automatically format when exiting insert mode
+let g:clang_format#style_options = {
+      \ "AlignConsecutiveAssignments" : "true",
+      \ "AlignConsecutiveMacros" : "true",
+      \ "AllowAllArgumentsOnNextLine" : "false",
+      \ "AllowAllParametersOfDeclarationOnNextLine" : "false",
+      \ "AllowShortIfStatementsOnASingleLine" : "true",
+      \ "AlignEscapedNewlines" : "Right",
+      \ "AlignTrailingComments" : "true",
+      \ "AlwaysBreakTemplateDeclarations" : "Yes",
+      \ "BreakBeforeTernaryOperators" : "true",
+      \ "BreakConstructorInitializers" : "BeforeComma",
+      \ "DerivePointerAlignment" : "false",
+      \ "PointerAlignment" : "Left",
+      \ "UseTab" : "Never",
+      \ "Standard" : "C++11"}
 
-let g:netrw_browse_split = 2
-let g:vrfr_rg = 'true'
-let g:netrw_banner = 0
-let g:netrw_winsize = 25
-
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
-let NERDTreeShowHidden = 1
-
-" -----------------------------------------------------------------------------
-" Key Map
-" -----------------------------------------------------------------------------
-inoremap jk <ESC>
-nmap <C-g> <ESC>
-
-nnoremap <Leader>bs :w<CR>
-
-" Window
-nnoremap <leader>h :wincmd h<CR>
-nnoremap <leader>j :wincmd j<CR>
-nnoremap <leader>k :wincmd k<CR>
-nnoremap <leader>l :wincmd l<CR>
-nnoremap <leader>wv <C-w>v
-nnoremap <leader>ws <C-w>s
-nnoremap <leader>wh 8<C-w><
-nnoremap <leader>wl 8<C-w>>
-nnoremap <leader>wk 8<C-w>-
-nnoremap <leader>wj 8<C-w>+
-
-nnoremap <leader>bb :Buffers<CR>
-
-nnoremap <leader>gg :Lines<CR>
-nnoremap <leader>gG :BLines<CR>
-
-" move to beginning/end of line
-nmap <S-h> ^
-nmap <S-l> $
-
-nnoremap <Leader>ps :Rg<SPACE>
-nnoremap <leader>u :UndotreeShow<CR>
-nnoremap <leader>f :NERDTreeToggle<CR>
-
-nnoremap <Leader>pF :Files<CR>
-nnoremap <Leader>pf :GFiles<CR>
-nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
-
-nnoremap <Leader>+ :vertical resize +5<CR>
-nnoremap <Leader>- :vertical resize -5<CR>
-
-
-" open header fswitch
-au! BufEnter *.cpp let b:fswitchdst = 'h' | let b:fswitchlocs = 'reg:/include/ethan'
-
-nmap <silent> <F4> :FSHere<cr>
-nmap <silent> <Leader>of :FSHere<cr>
-nmap <silent> <Leader>ol :FSRight<cr>
-nmap <silent> <Leader>oL :FSSplitRight<cr>
-nmap <silent> <Leader>oh :FSLeft<cr>
-nmap <silent> <Leader>oH :FSSplitLeft<cr>
-nmap <silent> <Leader>ok :FSAbove<cr>
-nmap <silent> <Leader>oK :FSSplitAbove<cr>
-nmap <silent> <Leader>oj :FSBelow<cr>
-nmap <silent> <Leader>oJ :FSSplitBelow<cr>
-
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv
-
-inoremap <C-c> <esc>
-
-" Quick command for vim config
-command! Config execute ":e $MYVIMRC"
-command! Reload execute "source ~/.config/nvim/init.vim"
-
-"strip whitespace
-nnoremap <leader>sw :%s/\s\+$//<cr>:let @/=''<CR>
-command! Stripwhitespace :%s/\s\+$//
-command! Whitespacestrip :%s/\s\+$//
-
-" Git Config
-nnoremap <silent><Leader>G :FloatermNew --width=0.9 --height=0.9 lazygit<CR>
-nnoremap <leader>gc :GBranches<CR>
-nnoremap <leader>ga :Git fetch --all<CR>
-
-" Terminal
-let g:floaterm_keymap_toggle = '<Leader>T'
-
-" vim TODO
-nmap <Leader>tu <Plug>BujoChecknormal
-nmap <Leader>th <Plug>BujoAddnormal
-let g:bujo#todo_file_path = $HOME . "/.cache/bujo"
-
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr>    pumvisible() ? "\<C-y>" : "\<cr>"
-imap <c-space> <Plug>(asyncomplete_force_refresh)
-
-" Disable diagnostics
-" let g:lsp_diagnostics_enabled = 0
-let g:lsp_signs_error = {'text': '✗'}
-let g:lsp_signs_warning = {'text': '%'}
-
-" Disable highligh errors
-let g:lsp_highlights_enabled = 0
-let g:lsp_textprop_enabled = 0
-let g:lsp_signs_priority = 11
-
-function! s:on_lsp_buffer_enabled() abort
-    setlocal omnifunc=lsp#complete
-    setlocal signcolumn=yes
-    " refer to doc to add more commands
-endfunction
-
-nmap gd <plug>(lsp-declaration)
-nmap gD <plug>(lsp-definition)
-nmap gp <plug>(lsp-peek-declaration)
-nmap gP <plug>(lsp-peek-definition)
-nmap ge <plug>(lsp-next-diagnostic)
-nmap gh <plug>(lsp-hover)
-nmap gr <plug>(lsp-references)
-nmap gu <plug>(lsp-references)
-nmap gE <plug>(lsp-document-diagnostics)
-nmap ga <plug>(lsp-code-action)
-nmap <leader>ya <plug>(lsp-code-action)
-nmap <leader>yj <plug>(lsp-declaration)
-nmap <leader>yg <plug>(lsp-declaration)
-nmap <leader>yd <plug>(lsp-peek-declaration)
-nmap <leader>ys <plug>(lsp-status)
-
-augroup lsp_install
-    au!
-    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
-    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-augroup END
-
-au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-    \ 'name': 'file',
-    \ 'whitelist': ['*'],
-    \ 'priority': 10,
-    \ 'completor': function('asyncomplete#sources#file#completor')
-    \ }))
-
-" multicursor
-let g:multi_cursor_next_key='<C-n>'
-let g:multi_cursor_prev_key='<C-p>'
-let g:multi_cursor_skip_key='<C-x>'
-let g:multi_cursor_quit_key='<Esc>'
-let g:multi_cursor_exit_from_insert_mode=0
-
-" Build Setup for Ethan
-nmap <F1> <Nop>
-nmap <F2> <Nop>
-nmap <F3> <Nop>
-nmap <F1> :!sh build_files/scripts/clean_mac.sh<CR>
-nmap <F2> :!sh build_files/scripts/build_mac.sh<CR>
-nmap <F3> :!bin/ETHAN<CR>
+" }}} end Misc
+"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
