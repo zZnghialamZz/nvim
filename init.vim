@@ -105,9 +105,13 @@ Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-file.vim' " provide Language Server Protocol autocompletion source for asyncomplete.vim and vim-lsp.
 Plug 'prabirshrestha/asyncomplete-lsp.vim'  " async Language Server Protocol plugin for vim8 and neovim.
 
+Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/neosnippet-snippets'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'               " add suport for languages
 Plug 'thomasfaingnaert/vim-lsp-snippets'
+Plug 'thomasfaingnaert/vim-lsp-neosnippet'
+Plug 'honza/vim-snippets'
 Plug 'rhysd/vim-clang-format'
 Plug 'vim-scripts/a.vim'                    " header swapping
 
@@ -117,9 +121,9 @@ Plug 'gruvbox-community/gruvbox'
 Plug 'sainnhe/gruvbox-material'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'flazz/vim-colorschemes'
 Plug 'dracula/vim', { 'name': 'dracula' }
 Plug 'altercation/vim-colors-solarized'
+Plug 'CreaturePhil/vim-handmade-hero'
 
 call plug#end()
 
@@ -150,6 +154,7 @@ set encoding=utf-8                          "set utf8 as standard encoding
 " => Neovide Specific {{{
 if exists('g:neovide')
   set guifont=Fixedsys\ Excelsior\ 3.01:h16   "set to use my favorite font
+  let g:neovide_transparency=0.95
   let g:neovide_fullscreen=v:true
   let g:neovide_cursor_vfx_mode = "wireframe"
   let g:neovide_cursor_animation_length=0.09
@@ -295,9 +300,9 @@ function! TermToggle(height)
 endfunction
 
 " Toggle terminal on/off (neovim)
-nnoremap <A-t> :call TermToggle(14)<CR>
-inoremap <A-t> <Esc>:call TermToggle(14)<CR>
-tnoremap <A-t> <C-\><C-n>:call TermToggle(14)<CR>
+nnoremap <A-t> :call TermToggle(16)<CR>
+inoremap <A-t> <Esc>:call TermToggle(16)<CR>
+tnoremap <A-t> <C-\><C-n>:call TermToggle(16)<CR>
 
 " Terminal go back to normal mode
 tnoremap <Esc> <C-\><C-n>
@@ -316,6 +321,10 @@ let g:multi_cursor_next_key            = '<C-n>'
 let g:multi_cursor_prev_key            = '<C-p>'
 let g:multi_cursor_skip_key            = '<C-x>'
 let g:multi_cursor_quit_key            = '<Esc>'
+
+" Neosnippet configuration
+imap <expr> <Tab> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<Tab>"
+smap <expr> <Tab> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<Tab>"
 
 " Nerdtree settings
 let NERDTreeMinimalUI = 1
