@@ -2,13 +2,22 @@
 " Maintainer:
 "       Nghia Lam <nghialam12795@gmail.com>
 "
+" TODO (Nghia Lam):
+"   - Organize this file to a more readable format.
+"   - Finding better plugins.
+"
 " Sections:
 "
 " => General {{{
+" Use Vim settings, rather than Vi settings (much better!).
+" This must be first, because it changes other options as a side effect.
+set nocompatible
+
 syntax on
 
 set exrc
 set guicursor=
+set backspace=indent,eol,start     "allow backspacing over everything in insert mode
 set noerrorbells visualbell t_vb=  "remove annoying sound in vim
 set relativenumber                 "relative number for line numbers
 set lazyredraw                     "no redraw when executing macros
@@ -18,8 +27,10 @@ set foldenable                     "enable folding
 set foldnestmax=10                 "10 nested fold max
 set foldmethod=marker
 set foldlevel=0
+set mouse=a                        "allow mouse
+set magic                          "for regex
 set showmatch                      "show matching bracket when cursor is over
-set nohlsearch                     "not highlight stuff when jump searchs
+"set nohlsearch                     "not highlight stuff when jump searchs
 set incsearch                      "increamental search
 set tabstop=2 softtabstop=2
 set shiftwidth=2
@@ -35,6 +46,8 @@ set undodir=~/.vim/undodir
 set undofile
 set scrolloff=8
 set encoding=UTF-8
+set list
+set listchars=tab:→\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
 
 " Display in one line is more than enough.
 set cmdheight=1
@@ -60,6 +73,7 @@ if has("gui_running")
     set guitablabel=%M\ %t
 endif
 
+
 " }}} end VIM User Interface
 " => Plugins install {{{
 
@@ -74,19 +88,28 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'preservim/nerdcommenter'
 Plug 'preservim/nerdtree'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'junegunn/vim-easy-align'
+Plug 'vifm/vifm.vim'
 
 "------------------------------------------"
 "LANGUAGE"
-Plug 'plasticboy/vim-markdown'               "better markdown support
-Plug 'rhysd/vim-clang-format'
+Plug 'sheerun/vim-polyglot'                 " all around languages
+Plug 'plasticboy/vim-markdown'              " better markdown support
+
 Plug 'kana/vim-operator-user'
 Plug 'Shougo/vimproc.vim'
-Plug 'prabirshrestha/async.vim'              "async autocompletion for Vim 8 and Neovim with |timers|.
+
+Plug 'prabirshrestha/async.vim'             " async autocompletion for Vim 8 and Neovim with |timers|.
 Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-file.vim'  "provide Language Server Protocol autocompletion source for asyncomplete.vim and vim-lsp.
-Plug 'prabirshrestha/asyncomplete-lsp.vim'   "async Language Server Protocol plugin for vim8 and neovim.
+Plug 'prabirshrestha/asyncomplete-file.vim' " provide Language Server Protocol autocompletion source for asyncomplete.vim and vim-lsp.
+Plug 'prabirshrestha/asyncomplete-lsp.vim'  " async Language Server Protocol plugin for vim8 and neovim.
+
 Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'                "add suport for languages
+Plug 'mattn/vim-lsp-settings'               " add suport for languages
+Plug 'thomasfaingnaert/vim-lsp-snippets'
+Plug 'rhysd/vim-clang-format'
+Plug 'vim-scripts/a.vim'                    " header swapping
 
 "------------------------------------------"
 "THEME"
@@ -149,6 +172,9 @@ nmap <C-g> <ESC>
 
 nnoremap <Leader>bs :w<CR>
 
+" Command mapping
+command! C nohlsearch           "use :C to clear hlsearch
+
 " window commands
 nmap <Leader>wv :vsp<cr>
 nmap <Leader>ws :split<cr>
@@ -201,6 +227,11 @@ nnoremap <Leader>f :NERDTreeToggle<CR>
 nnoremap <Leader>pF :Files<CR>
 nnoremap <Leader>pf :GFiles<CR>
 nnoremap <Leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
+
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 
 " LSP
 " Disable diagnostics
