@@ -2,6 +2,9 @@
 " Maintainer:
 "       Nghia Lam <nghialam12795@gmail.com>
 "
+" TODO (Nghia Lam):
+"   - Is this really necessary???
+"
 " Sections:
 "
 " => Fonts {{{

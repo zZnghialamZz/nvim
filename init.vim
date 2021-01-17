@@ -4,7 +4,8 @@
 "
 " TODO (Nghia Lam):
 "   - Organize this file to a more readable format.
-"   - Finding better plugins.
+"   - Add quickly TODO, NOTE, FIXME comment hotkey.
+"   - A project workflow similar to 4ed.
 "
 " Sections:
 "
@@ -30,6 +31,9 @@ set foldlevel=0
 set mouse=a                        "allow mouse
 set magic                          "for regex
 set showmatch                      "show matching bracket when cursor is over
+set wildmenu
+set wildoptions=pum
+set pumblend=20
 "set nohlsearch                     "not highlight stuff when jump searchs
 set incsearch                      "increamental search
 set tabstop=2 softtabstop=2
@@ -48,6 +52,7 @@ set scrolloff=8
 set encoding=UTF-8
 set list
 set listchars=tab:→\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
+set wildignorecase
 
 " Display in one line is more than enough.
 set cmdheight=1
@@ -65,11 +70,11 @@ highlight ColorColumn ctermbg=0 guibg=lightgrey
 " Set extra options when running in GUI mode
 if has("gui_running")
     set t_Co=256
-    set guioptions-=m                  "remove menu bar
+    set guioptions-=m " remove menu bar
     set guioptions-=e
-    set guioptions-=T                  "remove toolbar
-    set guioptions-=r                  "remove right-hand scroll bar
-    set guioptions-=L                  "remove left-hand scroll bar
+    set guioptions-=T " remove toolbar
+    set guioptions-=r " remove right-hand scroll bar
+    set guioptions-=L " remove left-hand scroll bar
     set guitablabel=%M\ %t
 endif
 
@@ -91,6 +96,10 @@ Plug 'preservim/nerdtree'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'junegunn/vim-easy-align'
 Plug 'vifm/vifm.vim'
+Plug 't9md/vim-choosewin'
+Plug 'haya14busa/vim-operator-flashy'
+Plug 'dyng/ctrlsf.vim'
+Plug 'jremmen/vim-ripgrep'
 
 "------------------------------------------"
 "LANGUAGE"
@@ -105,24 +114,25 @@ Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-file.vim' " provide Language Server Protocol autocompletion source for asyncomplete.vim and vim-lsp.
 Plug 'prabirshrestha/asyncomplete-lsp.vim'  " async Language Server Protocol plugin for vim8 and neovim.
 
+Plug 'prabirshrestha/vim-lsp'
+Plug 'liuchengxu/vista.vim'
+Plug 'mattn/vim-lsp-settings'               " add suport for languages
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'               " add suport for languages
 Plug 'thomasfaingnaert/vim-lsp-snippets'
 Plug 'thomasfaingnaert/vim-lsp-neosnippet'
 Plug 'honza/vim-snippets'
 Plug 'rhysd/vim-clang-format'
-Plug 'vim-scripts/a.vim'                    " header swapping
 
 "------------------------------------------"
 "THEME"
 Plug 'gruvbox-community/gruvbox'
 Plug 'sainnhe/gruvbox-material'
+Plug 'tomasr/molokai'
+Plug 'ayu-theme/ayu-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'dracula/vim', { 'name': 'dracula' }
-Plug 'altercation/vim-colors-solarized'
 Plug 'CreaturePhil/vim-handmade-hero'
 
 call plug#end()
@@ -154,6 +164,7 @@ set encoding=utf-8                          "set utf8 as standard encoding
 " => Neovide Specific {{{
 if exists('g:neovide')
   set guifont=Fixedsys\ Excelsior\ 3.01:h16   "set to use my favorite font
+  "set guifont=JetBrains\ Mono:h16
   let g:neovide_transparency=0.95
   let g:neovide_fullscreen=v:true
   let g:neovide_cursor_vfx_mode = "wireframe"
@@ -176,6 +187,32 @@ inoremap jk <ESC>
 nmap <C-g> <ESC>
 
 nnoremap <Leader>bs :w<CR>
+
+nnoremap <Leader>my "*y
+vnoremap <Leader>my "*y
+nnoremap <Leader>mp "*p
+vnoremap <Leader>mp "*p
+
+" Helper functions
+let NERDSpaceDelims=1
+command! -nargs=1 InsertTODO :normal! i <args>(Nghia Lam): <ESC>==
+" TODO(Nghia Lam): Find a better way for this
+function! AddTODO()
+  InsertTODO TODO
+  call NERDComment('n', 'toggle')
+endfunction
+function! AddNOTE()
+  InsertTODO NOTE
+  call NERDComment('n', 'toggle')
+endfunction
+function! AddFIXME()
+  InsertTODO FIXME
+  call NERDComment('n', 'toggle')
+endfunction
+
+nmap <Leader>at :call AddTODO()<CR>
+nmap <Leader>an :call AddNOTE()<CR>
+nmap <Leader>af :call AddFIXME()<CR>
 
 " Command mapping
 command! C nohlsearch           "use :C to clear hlsearch
@@ -210,8 +247,11 @@ vnoremap K :m '<-2<CR>gv=gv
 
 nnoremap <Leader>bb :Buffers<CR>
 
-nnoremap <Leader>+ :vertical resize +5<CR>
-nnoremap <Leader>- :vertical resize -5<CR>
+" Make adjusing split sizes a bit more friendly
+noremap <silent> <C-Left> :vertical resize +3<CR>
+noremap <silent> <C-Right> :vertical resize -3<CR>
+noremap <silent> <C-Up> :resize +3<CR>
+noremap <silent> <C-Down> :resize -3<CR>
 
 nnoremap <Leader>gg :Lines<CR>
 nnoremap <Leader>gG :BLines<CR>
@@ -225,7 +265,13 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr>    pumvisible() ? "\<C-y>" : "\<cr>"
 imap <c-space> <Plug>(asyncomplete_force_refresh)
 
-" Plugin Commands
+" Adding blank lines.
+nnoremap <silent><expr> <CR> &buftype ==# 'quickfix' ? '<CR>' : ':<C-U>call append(".", repeat([""], v:count1))<CR>'
+nnoremap <silent> <Leader>O :<C-U>call append(line('.') - 1, repeat([''], v:count1))<CR>
+
+" Change window local current directory to the directory of the file at the current window.
+nnoremap <silent> <Leader>cd :<C-U>lcd %:p:h<CR>" Plugin Commands
+
 nnoremap <Leader>u :UndotreeShow<CR>
 nnoremap <Leader>f :NERDTreeToggle<CR>
 
@@ -233,10 +279,27 @@ nnoremap <Leader>pF :Files<CR>
 nnoremap <Leader>pf :GFiles<CR>
 nnoremap <Leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
 
+" vim-operator-flashy
+map y <Plug>(operator-flashy)
+map Y <Plug>(operator-flashy)$
+let g:operator#flashy#group = 'Error'
+
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
+
+" vista.vim
+let g:vista_echo_cursor          = 0
+let g:vista_echo_cursor_strategy = 'floating_win'
+let g:vista_icon_indent          = ["'-> ", "|-> "]
+let g:vista_fzf_preview          = ['right:50%']
+let g:vista#renderer#enable_icon = 0
+
+" Choose win Commands
+nmap - <Plug>(choosewin)
+let g:choosewin_overlay_enable = 1
+let g:choosewin_overlay_clear_multibyte = 1
 
 " LSP
 " Disable diagnostics
@@ -311,6 +374,9 @@ tnoremap :q! <C-\><C-n>:q!<CR>
 " }}} end Editor mapping
 " => Misc {{{
 
+" Search
+let g:ctrlsf_backend = 'rg'
+
 " Multiple Cursor settings
 let g:multi_cursor_use_default_mapping=0
 
@@ -327,9 +393,9 @@ imap <expr> <Tab> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expa
 smap <expr> <Tab> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<Tab>"
 
 " Nerdtree settings
-let NERDTreeMinimalUI = 1
-let NERDTreeShowHidden = 1
-let g:NERDTreeIgnore = []
+let NERDTreeMinimalUI    = 1
+let NERDTreeShowHidden   = 1
+let g:NERDTreeIgnore     = []
 let g:NERDTreeStatusline = ''
 " Automaticaly close nvim if NERDTree is only thing left open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -356,11 +422,11 @@ let g:fzf_branch_actions = {
       \ },
       \}
 
-let loaded_matchparen=1
-let g:netrw_browse_split=2
-let g:vrfr_rg='true'
-let g:netrw_banner=0
-let g:netrw_winsize=25
+let loaded_matchparen    = 1
+let g:netrw_browse_split = 2
+let g:vrfr_rg            = 'true'
+let g:netrw_banner       = 0
+let g:netrw_winsize      = 25
 "let g:clang_format#auto_format=1
 "let g:clang_format#auto_format_on_insert_leave=1      "Automatically format when exiting insert mode
 let g:clang_format#style_options = {
@@ -379,6 +445,7 @@ let g:clang_format#style_options = {
       \ "UseTab" : "Never",
       \ "Standard" : "C++11"}
 
+let g:airline_section_z = '%{strftime("%H:%M")}'
 " }}} end Misc
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
