@@ -1,5 +1,5 @@
 "=============================================================================
-" ui/general.vim ---- General settings for ui related stuffs 
+" ui/general.vim ---- General settings for ui related stuffs
 " Copyright (c) 2020 Nghia Lam
 " Author: Nghia Lam <nghialam12795@gmail.com>
 " URL: https://github.com/zZnghialamZz/nvim
@@ -25,3 +25,5 @@ endif
 if $COLORTERM == 'gnome-terminal'
     set t_Co=256
 endif
+
+let loaded_matchparen = 1
