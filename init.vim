@@ -1,184 +1,32 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Maintainer:
-"       Nghia Lam <nghialam12795@gmail.com>
+"=============================================================================
+" init.vim ---- Entry file for neovim
+" Copyright (c) 2020 Nghia Lam
+" Author: Nghia Lam <nghialam12795@gmail.com>
+" URL: https://github.com/zZnghialamZz/nvim
+" License: The Unlicense
+"=============================================================================
 "
 " TODO (Nghia Lam):
-"   - Organize this file to a more readable format.
-"   - Add quickly TODO, NOTE, FIXME comment hotkey.
 "   - A project workflow similar to 4ed.
 "
 " Sections:
 "
-" => General {{{
-" Use Vim settings, rather than Vi settings (much better!).
-" This must be first, because it changes other options as a side effect.
-set nocompatible
+"   GENERAL
+execute 'source' fnamemodify(expand('<sfile>'), ':h').'/utils/settings.vim'
 
-syntax on
+"   VIM-PLUG
+execute 'source' fnamemodify(expand('<sfile>'), ':h').'/plugs/init.vim'
 
-set exrc
-set guicursor=
-set backspace=indent,eol,start     "allow backspacing over everything in insert mode
-set noerrorbells visualbell t_vb=  "remove annoying sound in vim
-set relativenumber                 "relative number for line numbers
-set lazyredraw                     "no redraw when executing macros
-set cursorline                     "highlight current line
-set hidden
-set foldenable                     "enable folding
-set foldnestmax=10                 "10 nested fold max
-set foldmethod=marker
-set foldlevel=0
-set mouse=a                        "allow mouse
-set magic                          "for regex
-set showmatch                      "show matching bracket when cursor is over
-set wildmenu
-set wildoptions=pum
-set pumblend=20
-"set nohlsearch                     "not highlight stuff when jump searchs
-set incsearch                      "increamental search
-set tabstop=2 softtabstop=2
-set shiftwidth=2
-set splitright
-set splitbelow
-set termguicolors
-set shortmess+=c
-set expandtab
-set smartindent
-set nu
-set nowrap
-set undodir=~/.vim/undodir
-set undofile
-set scrolloff=8
-set encoding=UTF-8
-set list
-set listchars=tab:→\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
-set wildignorecase
-
-" Display in one line is more than enough.
-set cmdheight=1
-
-" delays and poor user experience.
-" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
-set updatetime=50
-
-set colorcolumn=80
-highlight ColorColumn ctermbg=0 guibg=lightgrey
-
-" }}} end General
-" => VIM User Interface {{{
-
-" Set extra options when running in GUI mode
+"   UI
+execute 'source' fnamemodify(expand('<sfile>'), ':h').'/ui/general.vim'
+execute 'source' fnamemodify(expand('<sfile>'), ':h').'/ui/theme.vim'
 if has("gui_running")
-    set t_Co=256
-    set guioptions-=m " remove menu bar
-    set guioptions-=e
-    set guioptions-=T " remove toolbar
-    set guioptions-=r " remove right-hand scroll bar
-    set guioptions-=L " remove left-hand scroll bar
-    set guitablabel=%M\ %t
+  execute 'source' fnamemodify(expand('<sfile>'), ':h').'/ui/gui.vim'
 endif
-
-
-" }}} end VIM User Interface
-" => Plugins install {{{
-
-" auto-install vim-plug
-call plug#begin('~/.vim/plugged')
-
-"------------------------------------------"
-"GENERAL"
-Plug 'terryma/vim-multiple-cursors'
-Plug 'mbbill/undotree'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'preservim/nerdcommenter'
-Plug 'preservim/nerdtree'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'junegunn/vim-easy-align'
-Plug 'vifm/vifm.vim'
-Plug 't9md/vim-choosewin'
-Plug 'haya14busa/vim-operator-flashy'
-Plug 'dyng/ctrlsf.vim'
-Plug 'jremmen/vim-ripgrep'
-
-"------------------------------------------"
-"LANGUAGE"
-Plug 'sheerun/vim-polyglot'                 " all around languages
-Plug 'plasticboy/vim-markdown'              " better markdown support
-
-Plug 'kana/vim-operator-user'
-Plug 'Shougo/vimproc.vim'
-
-Plug 'prabirshrestha/async.vim'             " async autocompletion for Vim 8 and Neovim with |timers|.
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-file.vim' " provide Language Server Protocol autocompletion source for asyncomplete.vim and vim-lsp.
-Plug 'prabirshrestha/asyncomplete-lsp.vim'  " async Language Server Protocol plugin for vim8 and neovim.
-
-Plug 'prabirshrestha/vim-lsp'
-Plug 'liuchengxu/vista.vim'
-Plug 'mattn/vim-lsp-settings'               " add suport for languages
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neosnippet-snippets'
-Plug 'thomasfaingnaert/vim-lsp-snippets'
-Plug 'thomasfaingnaert/vim-lsp-neosnippet'
-Plug 'honza/vim-snippets'
-Plug 'rhysd/vim-clang-format'
-
-"------------------------------------------"
-"THEME"
-Plug 'gruvbox-community/gruvbox'
-Plug 'sainnhe/gruvbox-material'
-Plug 'tomasr/molokai'
-Plug 'ayu-theme/ayu-vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'dracula/vim', { 'name': 'dracula' }
-Plug 'CreaturePhil/vim-handmade-hero'
-
-call plug#end()
-
-" }}} end Plugins Install
-" => Colors {{{
-
-" Enable 256 colors palette in Gnome Terminal
-if $COLORTERM == 'gnome-terminal'
-    set t_Co=256
-endif
-
-" Theme
-let g:gruvbox_contrast_dark='hard'
-let g:gruvbox_termcolors=16
-let g:solarized_termcolors=256
-
-if exists('+termguicolors')
-    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-endif
-
-colorscheme gruvbox
-
-set background=dark
-set encoding=utf-8                          "set utf8 as standard encoding
-
-" }}} end Color
-" => Neovide Specific {{{
 if exists('g:neovide')
-  set guifont=Fixedsys\ Excelsior\ 3.01:h16   "set to use my favorite font
-  "set guifont=JetBrains\ Mono:h16
-  let g:neovide_transparency=0.95
-  let g:neovide_fullscreen=v:true
-  let g:neovide_cursor_vfx_mode = "wireframe"
-  let g:neovide_cursor_animation_length=0.09
+  execute 'source' fnamemodify(expand('<sfile>'), ':h').'/ui/neovide.vim'
 endif
-" }}} end Neovide Specific
-" => Files, backups and undo {{{
 
-" Turn backup off, since most stuff is in SVN, git etc. anyway...
-set nobackup
-set nowb
-set noswapfile
-
-" }}} end Files, backup and undo
 " => Editing mapping {{{
 
 let g:mapleader=" "
@@ -279,11 +127,6 @@ nnoremap <Leader>pF :Files<CR>
 nnoremap <Leader>pf :GFiles<CR>
 nnoremap <Leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
 
-" vim-operator-flashy
-map y <Plug>(operator-flashy)
-map Y <Plug>(operator-flashy)$
-let g:operator#flashy#group = 'Error'
-
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
@@ -315,6 +158,15 @@ function! s:on_lsp_buffer_enabled() abort
     setlocal signcolumn=yes
     " refer to doc to add more commands
 endfunction
+
+if executable('pyls')
+    " pip install python-language-server
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'pyls',
+        \ 'cmd': {server_info->['pyls']},
+        \ 'whitelist': ['python'],
+        \ })
+endif
 
 nmap <Leader>gd <plug>(lsp-declaration)
 nmap <Leader>gD <plug>(lsp-definition)
@@ -401,7 +253,8 @@ let g:NERDTreeStatusline = ''
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " FZF settings
-let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
+" let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
+let g:fzf_layout = { 'window': { 'width': 1, 'height': 0.4, 'yoffset': 1, 'border': 'horizontal' } }
 let $FZF_DEFAULT_OPTS='--reverse'
 let g:fzf_branch_actions = {
       \ 'rebase': {
