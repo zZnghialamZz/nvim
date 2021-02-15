@@ -18,10 +18,16 @@ vnoremap <Leader>my "*y
 nnoremap <Leader>mp "*p
 vnoremap <Leader>mp "*p
 
-let NERDSpaceDelims=1
+" Better tabbing
+vnoremap > >gv
+vnoremap < <gv
+nnoremap > <S-v>><esc>
+nnoremap < <S-v><<esc>
 
 " Command mapping
 command! C nohlsearch           "use :C to clear hlsearch
+" Kill search on escape
+nnoremap <esc> :noh<return><esc>
 
 " window commands
 nmap <Leader>wv :vsp<cr>
@@ -41,12 +47,12 @@ noremap <silent> <C-Down> :resize -3<CR>
 command! Config execute ":e $MYVIMRC"
 command! Reload execute "source $MYVIMRC"
 
-" Custom Commands
-nmap <S-h> ^
-nmap <S-l> $
-vnoremap <S-h> ^
-vnoremap <S-l> $
-
+" Horizontal line movement
+nnoremap <S-h> g^
+nnoremap <S-l> g$
+vnoremap <S-h> g^
+vnoremap <S-l> g$
+" Vertical line movement
 nnoremap j gj
 nnoremap k gk
 

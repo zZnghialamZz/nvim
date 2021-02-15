@@ -25,4 +25,4 @@ inoremap <C-S-Down> <Esc>:call AdjustFontSize(-1)<CR>a
 let g:neovide_transparency=0.95
 let g:neovide_fullscreen=v:true
 let g:neovide_cursor_vfx_mode = "wireframe"
-let g:neovide_cursor_animation_length=0.09
+let g:neovide_cursor_animation_length=0.05

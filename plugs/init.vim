@@ -18,11 +18,12 @@ Plug 'junegunn/fzf.vim'
 Plug 'preservim/nerdcommenter'
 Plug 'preservim/nerdtree'
 Plug 'junegunn/vim-easy-align'
-Plug 'vifm/vifm.vim'
 Plug 't9md/vim-choosewin'
 Plug 'dyng/ctrlsf.vim'
 Plug 'jremmen/vim-ripgrep'
 Plug 'pelodelfuego/vim-swoop'
+Plug 'jiangmiao/auto-pairs'
+Plug 'sotte/presenting.vim'
 
 "------------------------------------------"
 "LANGUAGE"

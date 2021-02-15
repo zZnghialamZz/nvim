@@ -20,14 +20,14 @@ function! s:on_lsp_buffer_enabled() abort
   " refer to doc to add more commands
 endfunction
 
-if executable('pyls')
-  " pip install python-language-server
-  au User lsp_setup call lsp#register_server({
-        \ 'name': 'pyls',
-        \ 'cmd': {server_info->['pyls']},
-        \ 'whitelist': ['python'],
-        \ })
-endif
+" if executable('pyls')
+  " " pip install python-language-server
+  " au User lsp_setup call lsp#register_server({
+        " \ 'name': 'pyls',
+        " \ 'cmd': {server_info->['pyls']},
+        " \ 'whitelist': ['python'],
+        " \ })
+" endif
 
 nmap <Leader>gd <plug>(lsp-declaration)
 nmap <Leader>gD <plug>(lsp-definition)

@@ -13,6 +13,7 @@ set nocompatible
 syntax on
 
 set exrc
+set autoread                       "auto load file changes
 set guicursor=
 set backspace=indent,eol,start     "allow backspacing over everything in insert mode
 set noerrorbells visualbell t_vb=  "remove annoying sound in vim
@@ -30,7 +31,7 @@ set showmatch                      "show matching bracket when cursor is over
 set wildmenu
 set wildoptions=pum
 set pumblend=20
-set nohlsearch                     "not highlight stuff when jump searchs
+set hlsearch                       "highlight stuff when jump searchs
 set incsearch                      "increamental search
 set tabstop=2 softtabstop=2
 set shiftwidth=2
