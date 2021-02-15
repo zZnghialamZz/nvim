@@ -39,6 +39,7 @@ execute 'source' fnamemodify(expand('<sfile>'), ':h').'/plugs/fzf.vim'
 execute 'source' fnamemodify(expand('<sfile>'), ':h').'/plugs/lsp.vim'
 execute 'source' fnamemodify(expand('<sfile>'), ':h').'/plugs/nerdtree.vim'
 execute 'source' fnamemodify(expand('<sfile>'), ':h').'/plugs/snippet.vim'
+execute 'source' fnamemodify(expand('<sfile>'), ':h').'/plugs/present.vim'
 execute 'source' fnamemodify(expand('<sfile>'), ':h').'/plugs/vista.vim'
 
 

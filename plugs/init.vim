@@ -24,6 +24,7 @@ Plug 'jremmen/vim-ripgrep'
 Plug 'pelodelfuego/vim-swoop'
 Plug 'jiangmiao/auto-pairs'
 Plug 'sotte/presenting.vim'
+Plug 'junegunn/goyo.vim'
 
 "------------------------------------------"
 "LANGUAGE"

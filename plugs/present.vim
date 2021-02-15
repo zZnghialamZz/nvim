@@ -6,5 +6,9 @@
 " License: The Unlicense
 "=============================================================================
 
-" Support .md extension for markdown presenting
-autcmd BufRead,BufNewFile *.md setlocal filetype=markdown
+autocmd BufRead,BufNewFile *.md setlocal filetype=markdown
+
+" With offsets
+let g:goyo_width  = 1600
+let g:goyo_height = 900
+let g:goyo_linenr = 0
