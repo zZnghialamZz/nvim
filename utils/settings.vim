@@ -12,7 +12,6 @@ set nocompatible
 
 syntax on
 
-set exrc
 set autoread                       "auto load file changes
 set guicursor=
 set backspace=indent,eol,start     "allow backspacing over everything in insert mode
@@ -28,6 +27,7 @@ set foldlevel=0
 set mouse=a                        "allow mouse
 set magic                          "for regex
 set showmatch                      "show matching bracket when cursor is over
+set matchtime=2
 set wildmenu
 set wildoptions=pum
 set pumblend=20

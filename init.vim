@@ -14,6 +14,7 @@
 "   GENERAL
 execute 'source' fnamemodify(expand('<sfile>'), ':h').'/utils/settings.vim'
 execute 'source' fnamemodify(expand('<sfile>'), ':h').'/utils/mapping.vim'
+execute 'source' fnamemodify(expand('<sfile>'), ':h').'/utils/project_management.vim'
 
 "   VIM-PLUG
 execute 'source' fnamemodify(expand('<sfile>'), ':h').'/plugs/init.vim'
@@ -35,7 +36,7 @@ execute 'source' fnamemodify(expand('<sfile>'), ':h').'/plugs/choosewin.vim'
 execute 'source' fnamemodify(expand('<sfile>'), ':h').'/plugs/cursor.vim'
 execute 'source' fnamemodify(expand('<sfile>'), ':h').'/plugs/ctrlsf.vim'
 execute 'source' fnamemodify(expand('<sfile>'), ':h').'/plugs/format.vim'
-execute 'source' fnamemodify(expand('<sfile>'), ':h').'/plugs/fzf.vim'
+execute 'source' fnamemodify(expand('<sfile>'), ':h').'/plugs/telescope.vim'
 execute 'source' fnamemodify(expand('<sfile>'), ':h').'/plugs/lsp.vim'
 execute 'source' fnamemodify(expand('<sfile>'), ':h').'/plugs/nerdtree.vim'
 execute 'source' fnamemodify(expand('<sfile>'), ':h').'/plugs/snippet.vim'

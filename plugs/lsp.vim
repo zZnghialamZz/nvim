@@ -7,11 +7,11 @@
 "=============================================================================
 
 " Disable diagnostics
-let g:lsp_diagnostics_enabled = 0
+" let g:lsp_diagnostics_enabled = 0
 
 " Disable highligh errors
-let g:lsp_highlights_enabled  = 0
-let g:lsp_textprop_enabled    = 0
+" let g:lsp_highlights_enabled  = 0
+" let g:lsp_textprop_enabled    = 0
 let g:lsp_signs_priority      = 1
 
 function! s:on_lsp_buffer_enabled() abort

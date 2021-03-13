@@ -13,8 +13,10 @@ call plug#begin('~/.vim/plugged')
 "GENERAL"
 Plug 'terryma/vim-multiple-cursors'
 Plug 'mbbill/undotree'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'preservim/nerdcommenter'
 Plug 'preservim/nerdtree'
 Plug 'junegunn/vim-easy-align'
@@ -23,13 +25,15 @@ Plug 'dyng/ctrlsf.vim'
 Plug 'jremmen/vim-ripgrep'
 Plug 'pelodelfuego/vim-swoop'
 Plug 'jiangmiao/auto-pairs'
-Plug 'sotte/presenting.vim'
+Plug 'andymass/vim-matchup'
 Plug 'junegunn/goyo.vim'
+Plug 'skywind3000/asyncrun.vim'
 
 "------------------------------------------"
-"LANGUAGE"
+"PROGRAMMING"
 Plug 'sheerun/vim-polyglot'                 " all around languages
 Plug 'plasticboy/vim-markdown'              " better markdown support
+Plug 'cdelledonne/vim-cmake'
 
 Plug 'kana/vim-operator-user'
 Plug 'Shougo/vimproc.vim'
@@ -58,6 +62,6 @@ Plug 'ayu-theme/ayu-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'dracula/vim', { 'name': 'dracula' }
-Plug 'CreaturePhil/vim-handmade-hero'
+Plug 'b4skyx/serenade'
 
 call plug#end()
