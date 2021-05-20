@@ -52,13 +52,15 @@ Plug 'thomasfaingnaert/vim-lsp-snippets'
 Plug 'thomasfaingnaert/vim-lsp-neosnippet'
 Plug 'honza/vim-snippets'
 Plug 'rhysd/vim-clang-format'
+Plug 'dart-lang/dart-vim-plugin'
 
 "------------------------------------------"
 "THEME"
+Plug 'bfrg/vim-cpp-modern'
 Plug 'gruvbox-community/gruvbox'
 Plug 'sainnhe/gruvbox-material'
 Plug 'zZnghialamZz/vim-mini-collection'
-Plug 'ayu-theme/ayu-vim'
+Plug 'CreaturePhil/vim-handmade-hero'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'dracula/vim', { 'name': 'dracula' }

@@ -18,6 +18,15 @@ vnoremap <Leader>my "*y
 nnoremap <Leader>mp "*p
 vnoremap <Leader>mp "*p
 
+" Insert mode movement (Emacs)
+inoremap <C-f> <Right>
+inoremap <C-b> <Left>
+inoremap <C-e> <C-o>$
+inoremap <C-a> <C-o>^
+
+" Repeat the last colon command
+nnoremap <C-b> @:<CR>
+
 " Better tabbing
 vnoremap > >gv
 vnoremap < <gv
@@ -30,12 +39,19 @@ command! C nohlsearch           "use :C to clear hlsearch
 nnoremap <esc> :noh<return><esc>
 
 " window commands
-nmap <Leader>wv :vsp<cr>
 nmap <Leader>ws :split<cr>
+nmap <Leader>wv :vsp<cr>
 nmap <Leader>wl <c-w><c-l>
 nmap <Leader>wh <c-w><c-h>
 nmap <Leader>wj <c-w><c-j>
 nmap <Leader>wk <c-w><c-k>
+nmap <Leader>wL <c-w>L
+nmap <Leader>wH <c-w>H
+nmap <Leader>wJ <c-w>J
+nmap <Leader>wK <c-w>K
+nmap <Leader>wr <c-w>r
+nmap <Leader>wx <c-w>x
+nmap <Leader>ww <c-w>w
 
 " Make adjusing split sizes a bit more friendly
 noremap <silent> <C-Left> :vertical resize +3<CR>
@@ -55,22 +71,21 @@ vnoremap <S-l> g$
 " Vertical line movement
 nnoremap j gj
 nnoremap k gk
+nnoremap <C-j> }
+nnoremap <C-k> {
 
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
+vnoremap <C-j> }
+vnoremap <C-k> {
 
-nnoremap <Leader>bb :Buffers<CR>
-nnoremap <Leader>gg :Lines<CR>
-nnoremap <Leader>gG :BLines<CR>
+" nnoremap <Leader>bb :Buffers<CR>
+" nnoremap <Leader>gg :Lines<CR>
+" nnoremap <Leader>gG :BLines<CR>
 
 nnoremap <Leader>sw :%s/\s\+$//<cr>:let @/=''<CR>
 command! Stripwhitespace :%s/\s\+$//
 command! Whitespacestrip :%s/\s\+$//
-
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr>    pumvisible() ? "\<C-y>" : "\<cr>"
-imap <c-space> <Plug>(asyncomplete_force_refresh)
 
 " Adding blank lines.
 nnoremap <silent><expr> <CR> &buftype ==# 'quickfix' ? '<CR>' : ':<C-U>call append(".", repeat([""], v:count1))<CR>'

@@ -29,6 +29,7 @@ endfunction
         " \ })
 " endif
 
+
 nmap <Leader>gd <plug>(lsp-declaration)
 nmap <Leader>gD <plug>(lsp-definition)
 nmap <Leader>gp <plug>(lsp-peek-declaration)
@@ -44,6 +45,12 @@ nmap <Leader>yj <plug>(lsp-declaration)
 nmap <Leader>yg <plug>(lsp-declaration)
 nmap <Leader>yd <plug>(lsp-peek-declaration)
 nmap <Leader>ys <plug>(lsp-status)
+nmap <Leader>cr <plug>(lsp-rename)
+
+inoremap <expr> <C-j>   pumvisible() ? "\<C-n>" : "\<C-j>"
+inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
+inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+imap <c-space> <Plug>(asyncomplete_force_refresh)
 
 augroup lsp_install
   au!

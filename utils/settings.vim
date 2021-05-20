@@ -39,7 +39,7 @@ set splitright
 set splitbelow
 set termguicolors
 set shortmess+=c
-set expandtab
+" set expandtab
 set smartindent
 set nu
 set nowrap
