@@ -16,7 +16,9 @@ set autoread                       "auto load file changes
 set guicursor=
 set backspace=indent,eol,start     "allow backspacing over everything in insert mode
 set noerrorbells visualbell t_vb=  "remove annoying sound in vim
-set relativenumber                 "relative number for line numbers
+" set relativenumber                 "relative number for line numbers
+set nornu
+set nonumber
 set lazyredraw                     "no redraw when executing macros
 set cursorline                     "highlight current line
 set hidden                         "required to keep multiple buffers open multiple buffers
@@ -28,7 +30,6 @@ set mouse=a                        "allow mouse
 set magic                          "for regex
 set showmatch                      "show matching bracket when cursor is over
 set matchtime=2
-set wildmenu
 set wildoptions=pum
 set pumblend=20
 set hlsearch                       "highlight stuff when jump searchs
@@ -41,7 +42,6 @@ set termguicolors
 set shortmess+=c
 " set expandtab
 set smartindent
-set nu
 set nowrap
 set undodir=~/.vim/undodir
 set undofile
@@ -61,3 +61,14 @@ set nobackup
 set nowb
 set noswapfile
 
+" Ignore files
+set wildmenu
+
+set wildignore+=*.pyc
+set wildignore+=*.meta
+set wildignore+=*_build/*
+set wildignore+=**/coverage/*
+set wildignore+=**/node_modules/*
+set wildignore+=**/android/*
+set wildignore+=**/ios/*
+set wildignore+=**/.git/*

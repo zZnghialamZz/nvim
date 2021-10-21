@@ -9,7 +9,7 @@
 let NERDSpaceDelims      = 1
 let NERDTreeMinimalUI    = 1
 let NERDTreeShowHidden   = 1
-let g:NERDTreeIgnore     = []
+let g:NERDTreeIgnore     = ['\.pyc$', '\.git$', '\.meta$']
 let g:NERDTreeStatusline = ''
 
 " Automaticaly close nvim if NERDTree is only thing left open

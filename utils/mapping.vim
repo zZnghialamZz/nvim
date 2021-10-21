@@ -25,7 +25,7 @@ inoremap <C-e> <C-o>$
 inoremap <C-a> <C-o>^
 
 " Repeat the last colon command
-nnoremap <C-b> @:<CR>
+nnoremap <C-p> @:<CR>
 
 " Better tabbing
 vnoremap > >gv
@@ -74,14 +74,15 @@ nnoremap k gk
 nnoremap <C-j> }
 nnoremap <C-k> {
 
+nnoremap <M-j> 15j
+nnoremap <M-k> 15k
+vnoremap <M-j> 15j
+vnoremap <M-k> 15k
+
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 vnoremap <C-j> }
 vnoremap <C-k> {
-
-" nnoremap <Leader>bb :Buffers<CR>
-" nnoremap <Leader>gg :Lines<CR>
-" nnoremap <Leader>gG :BLines<CR>
 
 nnoremap <Leader>sw :%s/\s\+$//<cr>:let @/=''<CR>
 command! Stripwhitespace :%s/\s\+$//
@@ -97,6 +98,9 @@ nnoremap <silent> <Leader>cd :<C-U>lcd %:p:h<CR>" Plugin Commands
 nnoremap <Leader>u :UndotreeShow<CR>
 nnoremap <Leader>f :NERDTreeToggle<CR>
 
-nnoremap <Leader>pF :Files<CR>
-nnoremap <Leader>pf :GFiles<CR>
-nnoremap <Leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
+" Toggle hybrid line number
+function! ToggleLineNumber()
+    set number! relativenumber!
+endfunction
+
+nnoremap <Leader>tl :call ToggleLineNumber()<CR>

@@ -31,10 +31,16 @@ function! DoBuildBatchFile()
     echo 'Build Complete'
 endfunction
 
-" Set F7 to build. I like this since I use visual studio with the c++ build env
-nnoremap <F5> :call DoBuildBatchFile()<CR>
+" Set F1 to build. I like using this since I use visual studio with the c++
+" build env
+nnoremap <F1> :call DoBuildBatchFile()<CR>
 
-"Go to next error
-nnoremap <F6> :cn<CR>
-"Go to previous error
-nnoremap <F7> :cp<CR>
+" Go to next error
+nnoremap <F2> :cn<CR>
+nnoremap <M-n> :cn<CR>
+" Go to previous error
+nnoremap <F3> :cp<CR>
+nnoremap <M-p> :cp<CR>
+
+" Close the window
+nnoremap <M-c> :cclose<CR>

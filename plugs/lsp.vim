@@ -6,55 +6,61 @@
 " License: The Unlicense
 "=============================================================================
 
-" Disable diagnostics
-" let g:lsp_diagnostics_enabled = 0
+set completeopt=menu,menuone,noselect
+let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
 
-" Disable highligh errors
-" let g:lsp_highlights_enabled  = 0
-" let g:lsp_textprop_enabled    = 0
-let g:lsp_signs_priority      = 1
+nnoremap <leader>ld :lua vim.lsp.buf.definition()<CR>
+nnoremap <leader>li :lua vim.lsp.buf.implementation()<CR>
+nnoremap <leader>lsh :lua vim.lsp.buf.signature_help()<CR>
+nnoremap <leader>lg :lua vim.lsp.buf.references()<CR>
+nnoremap <leader>lr :lua vim.lsp.buf.rename()<CR>
+nnoremap <leader>lh :lua vim.lsp.buf.hover()<CR>
+nnoremap <leader>la :lua vim.lsp.buf.code_action()<CR>
+nnoremap <leader>lsd :lua vim.lsp.diagnostic.show_line_diagnostics(); vim.lsp.util.show_line_diagnostics()<CR>
+nnoremap <leader>ln :lua vim.lsp.diagnostic.goto_next()<CR>
 
-function! s:on_lsp_buffer_enabled() abort
-  setlocal omnifunc=lsp#complete
-  setlocal signcolumn=yes
-  " refer to doc to add more commands
-endfunction
+let g:compe = {}
+let g:compe.enabled = v:true
+let g:compe.autocomplete = v:true
+let g:compe.debug = v:false
+let g:compe.min_length = 1
+let g:compe.preselect = 'enable'
+let g:compe.throttle_time = 80
+let g:compe.source_timeout = 200
+let g:compe.incomplete_delay = 400
+let g:compe.max_abbr_width = 100
+let g:compe.max_kind_width = 100
+let g:compe.max_menu_width = 100
+let g:compe.documentation = v:true
 
-" if executable('pyls')
-  " " pip install python-language-server
-  " au User lsp_setup call lsp#register_server({
-        " \ 'name': 'pyls',
-        " \ 'cmd': {server_info->['pyls']},
-        " \ 'whitelist': ['python'],
-        " \ })
-" endif
+let g:compe.source = {}
+let g:compe.source.path = v:true
+let g:compe.source.buffer = v:true
+let g:compe.source.calc = v:true
+let g:compe.source.nvim_lsp = v:true
+let g:compe.source.nvim_lua = v:true
+let g:compe.source.vsnip = v:true
+let g:compe.source.ultisnips = v:true
+let g:compe.source.luasnip = v:true
 
-
-nmap <Leader>gd <plug>(lsp-declaration)
-nmap <Leader>gD <plug>(lsp-definition)
-nmap <Leader>gp <plug>(lsp-peek-declaration)
-nmap <Leader>gP <plug>(lsp-peek-definition)
-nmap <Leader>ge <plug>(lsp-next-diagnostic)
-nmap <Leader>gh <plug>(lsp-hover)
-nmap <Leader>gr <plug>(lsp-references)
-nmap <Leader>gu <plug>(lsp-references)
-nmap <Leader>gE <plug>(lsp-document-diagnostics)
-nmap <Leader>ga <plug>(lsp-code-action)
-nmap <Leader>ya <plug>(lsp-code-action)
-nmap <Leader>yj <plug>(lsp-declaration)
-nmap <Leader>yg <plug>(lsp-declaration)
-nmap <Leader>yd <plug>(lsp-peek-declaration)
-nmap <Leader>ys <plug>(lsp-status)
-nmap <Leader>cr <plug>(lsp-rename)
-
-inoremap <expr> <C-j>   pumvisible() ? "\<C-n>" : "\<C-j>"
+inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
-inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+inoremap <expr> <cr>  pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 imap <c-space> <Plug>(asyncomplete_force_refresh)
 
-augroup lsp_install
-  au!
-  " call s:on_lsp_buffer_enabled only for languages that has the server
-  " registered.
-  autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-augroup END
+lua << EOF
+    local pid = vim.fn.getpid()
+
+    -- On linux/darwin if using a release build, otherwise under scripts/OmniSharp(.Core)(.cmd)
+    -- local omnisharp_bin = "/path/to/omnisharp-repo/run"
+    -- on Windows
+    local omnisharp_bin = "C:/Users/Nghia/AppData/Local/nvim-data/lsp_servers/omnisharp/omnisharp/OmniSharp.exe"
+
+    -- Setup nvim-cmp.
+    local cmp = require'cmp'
+
+    require'lspconfig'.omnisharp.setup { 
+        cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) };
+        capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities());
+    }
+EOF

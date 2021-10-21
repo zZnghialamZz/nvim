@@ -15,6 +15,20 @@ if exists('+termguicolors')
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
 
-colorscheme gruvbox
+let g:use_dark_theme = 0
+function! ToggleTheme()
+    if g:use_dark_theme == 1
+        colorscheme serenade
+        set background=dark
+    else
+        colorscheme paper
+        set background=light
+        let g:airline_theme='minimalist'
+    endif
+    let g:use_dark_theme = !g:use_dark_theme
+endfunction
 
+colorscheme serenade
 set background=dark
+
+nnoremap <Leader>tt :call ToggleTheme()<CR>
