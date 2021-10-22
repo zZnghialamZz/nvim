@@ -26,6 +26,7 @@ set foldenable                     "enable folding
 set foldnestmax=10                 "10 nested fold max
 set foldmethod=marker
 set foldlevel=0
+set ma
 set mouse=a                        "allow mouse
 set magic                          "for regex
 set showmatch                      "show matching bracket when cursor is over
@@ -72,3 +73,4 @@ set wildignore+=**/node_modules/*
 set wildignore+=**/android/*
 set wildignore+=**/ios/*
 set wildignore+=**/.git/*
+

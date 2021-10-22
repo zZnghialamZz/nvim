@@ -11,13 +11,15 @@ let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
 
 nnoremap <leader>ld :lua vim.lsp.buf.definition()<CR>
 nnoremap <leader>li :lua vim.lsp.buf.implementation()<CR>
-nnoremap <leader>lsh :lua vim.lsp.buf.signature_help()<CR>
 nnoremap <leader>lg :lua vim.lsp.buf.references()<CR>
-nnoremap <leader>lr :lua vim.lsp.buf.rename()<CR>
-nnoremap <leader>lh :lua vim.lsp.buf.hover()<CR>
-nnoremap <leader>la :lua vim.lsp.buf.code_action()<CR>
-nnoremap <leader>lsd :lua vim.lsp.diagnostic.show_line_diagnostics(); vim.lsp.util.show_line_diagnostics()<CR>
 nnoremap <leader>ln :lua vim.lsp.diagnostic.goto_next()<CR>
+nnoremap <leader>lu :SymbolsOutline<CR>
+nnoremap <leader>lD :Lspsaga preview_definition<CR>
+nnoremap <leader>lf :Lspsaga lsp_finder<CR>
+nnoremap <leader>la :Lspsaga code_action<CR>
+nnoremap <leader>lh :Lspsaga hover_doc<CR>
+nnoremap <leader>lsh :Lspsaga signature_help<CR>
+nnoremap <leader>lr :Lspsaga rename<CR>
 
 let g:compe = {}
 let g:compe.enabled = v:true
@@ -48,7 +50,52 @@ inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
 inoremap <expr> <cr>  pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 imap <c-space> <Plug>(asyncomplete_force_refresh)
 
+" Config autocmd and setup languageserver
+" ---
 lua << EOF
+    -- Setup nvim-cmp.
+    local cmp = require'cmp'
+
+    cmp.setup({
+        snippet = {
+            expand = function(args)
+                -- For `vsnip` user.
+                -- vim.fn["vsnip#anonymous"](args.body)
+                -- For `luasnip` user.
+                -- require('luasnip').lsp_expand(args.body)
+                -- For `ultisnips` user.
+                -- vim.fn["UltiSnips#Anon"](args.body)
+            end,
+        },
+        mapping = {
+            ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+            ['<C-d>'] = cmp.mapping.scroll_docs(4),
+            ['<C-Space>'] = cmp.mapping.complete(),
+            ['<C-e>'] = cmp.mapping.close(),
+            ['<CR>'] = cmp.mapping.confirm({ select = true }),
+        },
+
+        sources = {
+            { name = 'nvim_lsp' },
+
+            -- For vsnip user.
+            -- { name = 'vsnip' },
+            -- For luasnip user.
+            -- { name = 'luasnip' },
+            -- For ultisnips user.
+            -- { name = 'ultisnips' },
+
+            { name = 'buffer' },
+        }
+    })
+
+    local function config(_config)
+        return vim.tbl_deep_extend("force", {
+            capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+        }, _config or {})
+    end
+
+    -- C#
     local pid = vim.fn.getpid()
 
     -- On linux/darwin if using a release build, otherwise under scripts/OmniSharp(.Core)(.cmd)
@@ -56,11 +103,82 @@ lua << EOF
     -- on Windows
     local omnisharp_bin = "C:/Users/Nghia/AppData/Local/nvim-data/lsp_servers/omnisharp/omnisharp/OmniSharp.exe"
 
-    -- Setup nvim-cmp.
-    local cmp = require'cmp'
-
-    require'lspconfig'.omnisharp.setup { 
+    require'lspconfig'.omnisharp.setup (config({
         cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) };
-        capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities());
+    }))
+EOF
+
+" Config the lspsaga package
+" ---
+lua << EOF
+    local saga = require 'lspsaga'
+    saga.init_lsp_saga {
+        use_saga_diagnostic_sign = true,
+        error_sign = 'E',
+        warn_sign = 'W',
+        hint_sign = 'H',
+        infor_sign = 'I',
+        dianostic_header_icon = '',
+        code_action_icon = '',
+        code_action_prompt = {
+          enable = true,
+          sign = true,
+          sign_priority = 20,
+          virtual_text = true,
+        },
+        finder_definition_icon = '►  ',
+        finder_reference_icon = '✎  ',
+        border_style = "round",
     }
 EOF
+
+" Config the symbols-outline package
+" ---
+lua << EOF
+    local opts = {
+        -- whether to highlight the currently hovered symbol
+        -- disable if your cpu usage is higher than you want it
+        -- or you just hate the highlight
+        -- default: true
+        highlight_hovered_item = true,
+
+        -- whether to show outline guides
+        -- default: true
+        show_guides = true,
+        symbols = {
+            File = {icon = "⍞ ", hl = "TSURI"},
+            Module = {icon = "❐ ", hl = "TSNamespace"},
+            Namespace = {icon = "▼", hl = "TSNamespace"},
+            Package = {icon = "▧ ", hl = "TSNamespace"},
+            Class = {icon = "∁", hl = "TSType"},
+            Method = {icon = "ƒ", hl = "TSMethod"},
+            Property = {icon = "Ρ", hl = "TSMethod"},
+            Field = {icon = "ʃ", hl = "TSField"},
+            Constructor = {icon = "Σ", hl = "TSConstructor"},
+            Enum = {icon = "ℰ", hl = "TSType"},
+            Interface = {icon = "I", hl = "TSType"},
+            Function = {icon = "ƒ", hl = "TSFunction"},
+            Variable = {icon = "α", hl = "TSConstant"},
+            Constant = {icon = "θ", hl = "TSConstant"},
+            String = {icon = "ξ", hl = "TSString"},
+            Number = {icon = "#", hl = "TSNumber"},
+            Boolean = {icon = "⊨", hl = "TSBoolean"},
+            Array = {icon = "⌸ ", hl = "TSConstant"},
+            Object = {icon = "⦿", hl = "TSType"},
+            Key = {icon = "k", hl = "TSType"},
+            Null = {icon = "NULL", hl = "TSType"},
+            EnumMember = {icon = "ε", hl = "TSField"},
+            Struct = {icon = "δ", hl = "TSType"},
+            Event = {icon = "Ψ", hl = "TSType"},
+            Operator = {icon = "+", hl = "TSOperator"},
+            TypeParameter = {icon = "Τ", hl = "TSParameter"}
+        },
+    }
+
+    require('symbols-outline').setup(opts)
+EOF
+
+augroup LSP
+    autocmd!
+    autocmd BufEnter,BufWinEnter,TabEnter *.rs :lua require'lsp_extensions'.inlay_hints{}
+augroup END
