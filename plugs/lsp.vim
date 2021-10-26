@@ -9,17 +9,19 @@
 set completeopt=menu,menuone,noselect
 let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
 
-nnoremap <leader>ld :lua vim.lsp.buf.definition()<CR>
-nnoremap <leader>li :lua vim.lsp.buf.implementation()<CR>
-nnoremap <leader>lg :lua vim.lsp.buf.references()<CR>
-nnoremap <leader>ln :lua vim.lsp.diagnostic.goto_next()<CR>
 nnoremap <leader>lu :SymbolsOutline<CR>
+nnoremap <leader>ld <cmd>Telescope lsp_definitions<CR>
+nnoremap <leader>li :lua vim.lsp.buf.implementation()<CR>
+nnoremap <leader>lg <cmd>Telescope lsp_references<CR>
+nnoremap <leader>lf :lua vim.lsp.buf.formatting()<CR>
+nnoremap <leader>lw <cmd>Telescope lsp_workspace_symbols<CR>
+nnoremap <leader>ln :lua vim.lsp.diagnostic.goto_next()<CR>
 nnoremap <leader>lD :Lspsaga preview_definition<CR>
-nnoremap <leader>lf :Lspsaga lsp_finder<CR>
 nnoremap <leader>la :Lspsaga code_action<CR>
 nnoremap <leader>lh :Lspsaga hover_doc<CR>
-nnoremap <leader>lsh :Lspsaga signature_help<CR>
 nnoremap <leader>lr :Lspsaga rename<CR>
+nnoremap <leader>lsh :Lspsaga signature_help<CR>
+nnoremap <leader>lss :Lspsaga lsp_finder<CR>
 
 let g:compe = {}
 let g:compe.enabled = v:true
@@ -45,11 +47,6 @@ let g:compe.source.vsnip = v:true
 let g:compe.source.ultisnips = v:true
 let g:compe.source.luasnip = v:true
 
-inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
-inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
-inoremap <expr> <cr>  pumvisible() ? asyncomplete#close_popup() : "\<cr>"
-imap <c-space> <Plug>(asyncomplete_force_refresh)
-
 " Config autocmd and setup languageserver
 " ---
 lua << EOF
@@ -68,6 +65,7 @@ lua << EOF
             end,
         },
         mapping = {
+            ['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' }),
             ['<C-u>'] = cmp.mapping.scroll_docs(-4),
             ['<C-d>'] = cmp.mapping.scroll_docs(4),
             ['<C-Space>'] = cmp.mapping.complete(),
@@ -96,6 +94,7 @@ lua << EOF
     end
 
     -- C#
+    -- ------------------------------------------------------------------------
     local pid = vim.fn.getpid()
 
     -- On linux/darwin if using a release build, otherwise under scripts/OmniSharp(.Core)(.cmd)
@@ -106,6 +105,10 @@ lua << EOF
     require'lspconfig'.omnisharp.setup (config({
         cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) };
     }))
+
+    -- Vim
+    -- ------------------------------------------------------------------------
+    require'lspconfig'.vimls.setup(config())
 EOF
 
 " Config the lspsaga package

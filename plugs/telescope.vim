@@ -11,3 +11,6 @@ nnoremap <leader>pF <cmd>Telescope git_files<cr>
 nnoremap <leader>pf <cmd>Telescope find_files<cr>
 nnoremap <leader>ph <cmd>Telescope help_tags<cr>
 nnoremap <leader>pb <cmd>Telescope buffers<cr>
+nnoremap <leader>: <cmd>Telescope commands<cr>
+nnoremap <leader>ot <cmd>Telescope colorscheme<cr>
+
