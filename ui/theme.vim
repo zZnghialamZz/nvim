@@ -18,7 +18,7 @@ endif
 let g:use_dark_theme = 0
 function! ToggleTheme()
     if g:use_dark_theme == 1
-        colorscheme serenade
+        colorscheme solarized8_high
         set background=dark
     else
         colorscheme paper
@@ -28,7 +28,7 @@ function! ToggleTheme()
     let g:use_dark_theme = !g:use_dark_theme
 endfunction
 
-colorscheme serenade
+colorscheme solarized8_high
 set background=dark
 
 nnoremap <Leader>tt :call ToggleTheme()<CR>

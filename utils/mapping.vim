@@ -21,8 +21,8 @@ vnoremap <Leader>mp "*p
 " Insert mode movement (Emacs)
 inoremap <C-f> <Right>
 inoremap <C-b> <Left>
-inoremap <C-e> <C-o>$
-inoremap <C-a> <C-o>^
+" inoremap <C-e> <C-o>$
+" inoremap <C-a> <C-o>^
 
 " Repeat the last colon command
 nnoremap <C-p> @:<CR>
@@ -64,10 +64,10 @@ command! Config execute ":e $MYVIMRC"
 command! Reload execute "source $MYVIMRC"
 
 " Horizontal line movement
-nnoremap <S-h> g^
-nnoremap <S-l> g$
-vnoremap <S-h> g^
-vnoremap <S-l> g$
+nnoremap <S-h> ^
+nnoremap <S-l> $
+vnoremap <S-h> ^
+vnoremap <S-l> $
 " Vertical line movement
 nnoremap j gj
 nnoremap k gk

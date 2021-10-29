@@ -18,6 +18,7 @@ Plug 'BurntSushi/ripgrep'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make', 'branch': 'main' }
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
 
 Plug 'preservim/nerdcommenter'

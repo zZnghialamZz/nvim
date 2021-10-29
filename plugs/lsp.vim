@@ -50,6 +50,8 @@ let g:compe.source.luasnip = v:true
 " Config autocmd and setup languageserver
 " ---
 lua << EOF
+    local nvim_lsp = require('lspconfig')
+
     -- Setup nvim-cmp.
     local cmp = require'cmp'
 
@@ -102,13 +104,80 @@ lua << EOF
     -- on Windows
     local omnisharp_bin = "C:/Users/Nghia/AppData/Local/nvim-data/lsp_servers/omnisharp/omnisharp/OmniSharp.exe"
 
-    require'lspconfig'.omnisharp.setup (config({
+    nvim_lsp.omnisharp.setup (config({
         cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) };
     }))
 
     -- Vim
     -- ------------------------------------------------------------------------
-    require'lspconfig'.vimls.setup(config())
+    nvim_lsp.vimls.setup(config())
+
+    -- Javascript
+    -- ------------------------------------------------------------------------
+    -- NOTE(Nghia Lam): Mostly used for config my personal website.
+    nvim_lsp.tsserver.setup (config({
+        filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
+    }))
+    nvim_lsp.diagnosticls.setup {
+        on_attach = on_attach,
+        filetypes = { 'javascript', 'javascriptreact', 'json', 'typescript', 'typescriptreact', 'css', 'less', 'scss', 'markdown', 'pandoc' },
+        init_options = {
+            linters = {
+                eslint = {
+                    command = 'eslint_d',
+                    rootPatterns = { '.git' },
+                    debounce = 100,
+                    args = { '--stdin', '--stdin-filename', '%filepath', '--format', 'json' },
+                    sourceName = 'eslint_d',
+                    parseJson = {
+                        errorsRoot = '[0].messages',
+                        line = 'line',
+                        column = 'column',
+                        endLine = 'endLine',
+                        endColumn = 'endColumn',
+                        message = '[eslint] ${message} [${ruleId}]',
+                        security = 'severity'
+                    },
+                    securities = {
+                      [2] = 'error',
+                      [1] = 'warning'
+                    }
+                },
+            },
+            filetypes = {
+                javascript = 'eslint',
+                javascriptreact = 'eslint',
+                typescript = 'eslint',
+                typescriptreact = 'eslint',
+            },
+            formatters = {
+                eslint_d = {
+                    command = 'eslint_d',
+                    rootPatterns = { '.git' },
+                    args = { '--stdin', '--stdin-filename', '%filename', '--fix-to-stdout' },
+                    rootPatterns = { '.git' },
+                },
+                prettier = {
+                    command = 'prettier_d_slim',
+                    rootPatterns = { '.git' },
+                    -- requiredFiles: { 'prettier.config.js' },
+                    args = { '--stdin', '--stdin-filepath', '%filename' }
+                }
+            },
+            formatFiletypes = {
+                css = 'prettier',
+                javascript = 'prettier',
+                javascriptreact = 'prettier',
+                json = 'prettier',
+                scss = 'prettier',
+                less = 'prettier',
+                typescript = 'prettier',
+                typescriptreact = 'prettier',
+                json = 'prettier',
+                markdown = 'prettier',
+            }
+        }
+    }
 EOF
 
 " Config the lspsaga package
