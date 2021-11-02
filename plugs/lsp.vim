@@ -116,10 +116,16 @@ lua << EOF
     -- ------------------------------------------------------------------------
     -- NOTE(Nghia Lam): Mostly used for config my personal website.
     nvim_lsp.tsserver.setup (config({
-        filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
+        filetypes = { "typescript", "typescriptreact", "typescript.tsx"},
     }))
-    nvim_lsp.diagnosticls.setup {
-        on_attach = on_attach,
+    --nvim_lsp.tailwindcss.setup (config({
+        --filetypes = { "aspnetcorerazor", "astro", "astro-markdown", "blade", "django-html", "edge", "eelixir", "ejs", "erb", "eruby", "gohtml", "haml", "handlebars", "hbs", "html", "html-eex", "jade", "leaf", "liquid", "markdown", "mdx", "mustache", "njk", "nunjucks", "php", "razor", "slim", "twig", "css", "less", "postcss", "sass", "scss", "stylus", "sugarss", "javascript", "javascriptreact", "reason", "rescript", "typescript", "typescriptreact", "vue", "svelte" },
+    --}))
+    nvim_lsp.cssls.setup (config({
+        filetypes = { "css", "scss" },
+    }))
+
+    nvim_lsp.diagnosticls.setup (config({
         filetypes = { 'javascript', 'javascriptreact', 'json', 'typescript', 'typescriptreact', 'css', 'less', 'scss', 'markdown', 'pandoc' },
         init_options = {
             linters = {
@@ -177,7 +183,7 @@ lua << EOF
                 markdown = 'prettier',
             }
         }
-    }
+    }))
 EOF
 
 " Config the lspsaga package

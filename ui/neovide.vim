@@ -1,5 +1,5 @@
 "=============================================================================
-" File: ui/gui.vim 
+" File: ui/gui.vim
 " Brief: UI settings for GUI
 " Author: Nghia Lam <nghialam12795@gmail.com>
 " URL: https://github.com/zZnghialamZz/nvim
@@ -29,7 +29,7 @@ inoremap <C-ScrollWheelDown> <Esc>:call AdjustFontSize(-1)<CR>a
 " set guifont=Fixedsys\ Excelsior\ 3.01:h16   "set to use my favorite font
 " set guifont=Source\ Code\ Pro:h15   "set to use my favorite font
 " set guifont=JetBrains\ Mono:h16
-set guifont=Liberation\ Mono:h13
+set guifont=Liberation\ Mono:h14
 let g:neovide_transparency=0.95
 " let g:neovide_fullscreen=v:true
 let g:neovide_cursor_vfx_mode = "wireframe"
