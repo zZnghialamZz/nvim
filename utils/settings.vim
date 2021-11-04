@@ -49,7 +49,7 @@ set undofile
 set scrolloff=8
 set encoding=UTF-8
 set list
-set listchars=tab:→\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
+set listchars=tab:→\ ,trail:⋅,extends:❯,precedes:❮
 set wildignorecase
 set cmdheight=1                    "display command in 1 line
 
