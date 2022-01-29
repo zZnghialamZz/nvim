@@ -42,19 +42,10 @@ Plug 'cdelledonne/vim-cmake'
 Plug 'kana/vim-operator-user'
 Plug 'Shougo/vimproc.vim'
 
-" Plug 'prabirshrestha/async.vim'             " async autocompletion for Vim 8 and Neovim with |timers|.
-" Plug 'prabirshrestha/asyncomplete.vim'
-" Plug 'prabirshrestha/asyncomplete-file.vim' " provide Language Server Protocol autocompletion source for asyncomplete.vim and vim-lsp.
+Plug 'habamax/vim-godot'
 
 " LSP Config
 " ---
-" Plug 'prabirshrestha/asyncomplete-lsp.vim'  " async Language Server Protocol plugin for vim8 and neovim.
-" Plug 'prabirshrestha/vim-lsp'
-" Plug 'prabirshrestha/quickpick.vim'
-" Plug 'prabirshrestha/quickpick-lsp.vim'
-" Plug 'thomasfaingnaert/vim-lsp-snippets'
-" Plug 'thomasfaingnaert/vim-lsp-neosnippet'
-" Plug 'mattn/vim-lsp-settings'               " add suport for languages
 Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/nvim-lsp-installer'
 Plug 'hrsh7th/cmp-nvim-lsp'
@@ -82,5 +73,6 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'dracula/vim', { 'name': 'dracula' }
 Plug 'b4skyx/serenade'
+Plug 'sainnhe/everforest'
 
 call plug#end()

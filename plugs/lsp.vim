@@ -95,6 +95,13 @@ lua << EOF
         }, _config or {})
     end
 
+    -- C/C++
+    -- ------------------------------------------------------------------------
+    nvim_lsp.clangd.setup(config({
+        filetype = {"c", "cpp", "objc", "objcpp", "arduino", "ino"},
+    }))
+    nvim_lsp.cmake.setup (config())
+
     -- C#
     -- ------------------------------------------------------------------------
     local pid = vim.fn.getpid()

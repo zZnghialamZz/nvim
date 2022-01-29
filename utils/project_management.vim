@@ -1,10 +1,10 @@
-"=e============================================================================
+" =============================================================================
 " project_management.vim ---- Setup things for project managements
 " Copyright (c) 2020 Nghia Lam
 " Author: Nghia Lam <nghialam12795@gmail.com>
 " URL: https://github.com/zZnghialamZz/nvim
 " License: The Unlicense
-"=============================================================================
+" =============================================================================
 
 " TODO(Nghia Lam): This needs to be expanded and support other dev env
 
@@ -42,5 +42,5 @@ nnoremap <M-n> :cn<CR>
 nnoremap <F3> :cp<CR>
 nnoremap <M-p> :cp<CR>
 
-" Close the window
+nnoremap <M-o> :copen<CR>
 nnoremap <M-c> :cclose<CR>

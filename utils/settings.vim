@@ -35,7 +35,7 @@ set wildoptions=pum
 set pumblend=20
 set hlsearch                       "highlight stuff when jump searchs
 set incsearch                      "increamental search
-set tabstop=2 softtabstop=2
+set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 set shiftwidth=2
 set splitright
 set splitbelow
