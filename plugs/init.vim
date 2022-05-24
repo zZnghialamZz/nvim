@@ -41,6 +41,7 @@ Plug 'cdelledonne/vim-cmake'
 
 Plug 'kana/vim-operator-user'
 Plug 'Shougo/vimproc.vim'
+Plug 'shime/vim-livedown'
 
 " Plug 'prabirshrestha/async.vim'             " async autocompletion for Vim 8 and Neovim with |timers|.
 " Plug 'prabirshrestha/asyncomplete.vim'
@@ -75,6 +76,7 @@ Plug 'bfrg/vim-cpp-modern'
 Plug 'gruvbox-community/gruvbox'
 Plug 'sainnhe/gruvbox-material'
 Plug 'zZnghialamZz/vim-mini-collection'
+Plug 'vim-scripts/rastafari.vim'
 Plug 'jnurmine/Zenburn'
 Plug 'YorickPeterse/vim-paper'
 Plug 'lifepillar/vim-solarized8'

@@ -7,7 +7,7 @@
 "=============================================================================
 "
 " TODO (Nghia Lam):
-"   - A project workflow similar to 4ed.
+"s   - A project workflow similar to 4ed.
 "
 " Sections:
 "
@@ -37,7 +37,7 @@ execute 'source' fnamemodify(expand('<sfile>'), ':h').'/plugs/cursor.vim'
 execute 'source' fnamemodify(expand('<sfile>'), ':h').'/plugs/ctrlsf.vim'
 execute 'source' fnamemodify(expand('<sfile>'), ':h').'/plugs/format.vim'
 execute 'source' fnamemodify(expand('<sfile>'), ':h').'/plugs/telescope.vim'
-execute 'source' fnamemodify(expand('<sfile>'), ':h').'/plugs/lsp.vim'
+" execute 'source' fnamemodify(expand('<sfile>'), ':h').'/plugs/lsp.vim'
 execute 'source' fnamemodify(expand('<sfile>'), ':h').'/plugs/nerdtree.vim'
 execute 'source' fnamemodify(expand('<sfile>'), ':h').'/plugs/snippet.vim'
 execute 'source' fnamemodify(expand('<sfile>'), ':h').'/plugs/present.vim'
